@@ -1,4 +1,4 @@
-%% 03.1 - Operaciones matemáticas: suma y resta
+%% Cap 03.1 - Operaciones matemáticas: suma y resta
 % Curso básico de MATLAB
 % Tema: operadores + y -
 
