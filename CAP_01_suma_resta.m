@@ -3,7 +3,7 @@
 % Tema: operadores + y -
 
 clc; clear;
-
+%close
 %% Suma
 a = 8;
 b = 5;

@@ -1,0 +1,247 @@
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\title{Desarrollo de Series de Fourier: \\ Onda Cuadrada y Onda Diente de Sierra}
+\author{Curso Básico de MATLAB}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Introducción}
+
+La serie de Fourier de una función periódica $f(t)$, con periodo
+$T = 2L$, se define como
+
+\begin{equation}
+f(t) = \frac{a_0}{2} + \sum_{n=1}^{\infty} \left[ a_n \cos\!\left(\frac{n\pi t}{L}\right) + b_n \sin\!\left(\frac{n\pi t}{L}\right) \right]
+\end{equation}
+
+donde los coeficientes se calculan como
+
+\begin{align}
+a_0 &= \frac{1}{L} \int_{-L}^{L} f(t)\, dt \\
+a_n &= \frac{1}{L} \int_{-L}^{L} f(t) \cos\!\left(\frac{n\pi t}{L}\right) dt \\
+b_n &= \frac{1}{L} \int_{-L}^{L} f(t) \sin\!\left(\frac{n\pi t}{L}\right) dt
+\end{align}
+
+En ambos casos de este documento se trabaja con periodo $T = 2\pi$
+(es decir, $L = \pi$), y ambas funciones son \textbf{impares}, por
+lo que $a_0 = 0$ y $a_n = 0$ para toda $n$: solo es necesario
+calcular los coeficientes $b_n$.
+
+\section{Caso 1: Onda cuadrada}
+
+\subsection{Definición de la función}
+
+Se define la onda cuadrada de periodo $2\pi$ como
+
+\begin{equation}
+f(t) =
+\begin{cases}
+\phantom{-}1, & 0 < t < \pi \\
+-1, & -\pi < t < 0
+\end{cases}
+\end{equation}
+
+Esta función es impar y equivale a $\operatorname{sign}(\sin t)$.
+
+\subsection{Cálculo de $b_n$}
+
+Como $f(t)$ es impar, únicamente aparece el coeficiente $b_n$:
+
+\begin{equation}
+b_n = \frac{1}{\pi} \int_{-\pi}^{\pi} f(t) \sin(nt)\, dt
+    = \frac{2}{\pi} \int_{0}^{\pi} (1)\sin(nt)\, dt
+\end{equation}
+
+(se usó que el integrando $f(t)\sin(nt)$ es una función par, por
+lo que la integral en $[-\pi,\pi]$ es el doble de la integral en
+$[0,\pi]$).
+
+Resolviendo la integral:
+
+\begin{align}
+b_n &= \frac{2}{\pi} \left[ -\frac{\cos(nt)}{n} \right]_0^{\pi}
+     = \frac{2}{n\pi} \Big[ 1 - \cos(n\pi) \Big]
+\end{align}
+
+Como $\cos(n\pi) = (-1)^n$, se tiene:
+
+\begin{equation}
+b_n = \frac{2}{n\pi}\left[1 - (-1)^n\right] =
+\begin{cases}
+\dfrac{4}{n\pi}, & n \text{ impar} \\[2mm]
+0, & n \text{ par}
+\end{cases}
+\end{equation}
+
+\subsection{Ecuación final a programar}
+
+Sustituyendo $b_n$ en la serie y dejando solo los términos impares
+($n = 1, 3, 5, \ldots$):
+
+\begin{equation}
+\boxed{\;f(t) = \frac{4}{\pi} \sum_{n=1,3,5,\ldots}^{\infty} \frac{\sin(nt)}{n}\;}
+\end{equation}
+
+Esta es la expresión implementada en \texttt{onda\_cuadrada\_fourier.m},
+sumando un número finito $K$ de armónicos impares en lugar de
+infinitos.
+
+\section{Caso 2: Onda diente de sierra}
+
+\subsection{Definición de la función}
+
+Se define la onda diente de sierra de periodo $2\pi$ como
+
+\begin{equation}
+f(t) = t, \qquad -\pi < t < \pi
+\end{equation}
+
+repitiéndose con periodo $2\pi$. También es una función impar.
+
+\subsection{Cálculo de $b_n$}
+
+\begin{equation}
+b_n = \frac{1}{\pi} \int_{-\pi}^{\pi} t \sin(nt)\, dt
+    = \frac{2}{\pi} \int_{0}^{\pi} t \sin(nt)\, dt
+\end{equation}
+
+(de nuevo, $t\sin(nt)$ es par, así que se duplica la integral en
+$[0,\pi]$). Se resuelve por partes, con $u = t$, $dv = \sin(nt)\,dt$,
+por lo que $du = dt$ y $v = -\cos(nt)/n$:
+
+\begin{align}
+\int_0^{\pi} t \sin(nt)\, dt
+&= \left[ -\frac{t\cos(nt)}{n} \right]_0^{\pi} + \frac{1}{n}\int_0^{\pi} \cos(nt)\, dt \\
+&= -\frac{\pi \cos(n\pi)}{n} + \frac{1}{n}\left[\frac{\sin(nt)}{n}\right]_0^{\pi} \\
+&= -\frac{\pi (-1)^n}{n} + 0
+\end{align}
+
+(el segundo término se anula porque $\sin(n\pi) = 0$ para toda $n$
+entera). Sustituyendo de vuelta:
+
+\begin{equation}
+b_n = \frac{2}{\pi}\left(-\frac{\pi(-1)^n}{n}\right) = \frac{2(-1)^{n+1}}{n}
+\end{equation}
+
+\subsection{Ecuación final a programar}
+
+\begin{equation}
+\boxed{\;f(t) = 2 \sum_{n=1}^{\infty} \frac{(-1)^{n+1}}{n} \sin(nt)\;}
+\end{equation}
+
+A diferencia de la onda cuadrada, aquí participan \textbf{todos}
+los armónicos ($n = 1, 2, 3, \ldots$), alternando de signo. Esta es
+la expresión implementada en
+\texttt{onda\_diente\_sierra\_fourier.m}, sumando un número finito
+$N$ de términos en lugar de infinitos.
+
+\section{Fenómeno de Gibbs}
+
+Ambas funciones estudiadas tienen discontinuidades de salto (la onda
+cuadrada salta entre $-1$ y $1$; la diente de sierra salta entre
+$\pi$ y $-\pi$ en cada periodo). Al aproximar una función
+discontinua con un número finito de términos de su serie de
+Fourier, aparece una sobre-oscilación (\emph{overshoot}) justo
+antes y después de cada salto que no desaparece al aumentar el
+número de términos $N$: lo que ocurre es que dicha oscilación se
+concentra cada vez en un intervalo más angosto alrededor de la
+discontinuidad, pero su \textbf{altura converge a un valor fijo},
+aproximadamente igual al $9\%$ del tamaño del salto. Este
+comportamiento se conoce como el \textbf{fenómeno de Gibbs} y puede
+observarse directamente en las gráficas generadas por
+\texttt{onda\_cuadrada\_fourier.m} y
+\texttt{onda\_diente\_sierra\_fourier.m}: sin importar cuántos
+armónicos se agreguen, siempre queda un pequeño pico cerca de cada
+discontinuidad.
+
+Formalmente, si $S_N(t)$ es la suma parcial con $N$ términos de la
+serie de Fourier y $t_0$ es un punto de discontinuidad con salto de
+tamaño $d = f(t_0^+) - f(t_0^-)$, se cumple que
+
+\begin{equation}
+\lim_{N \to \infty} \left( \max_{t \,\text{cerca de}\, t_0} S_N(t) - f(t_0^+) \right) \approx 0.0895 \, d
+\end{equation}
+
+es decir, el sobrepaso máximo no tiende a cero, sino a
+aproximadamente el $9\%$ del salto, independientemente de cuántos
+términos se utilicen.
+
+\section{Fenómeno de Aliasing}
+
+El aliasing es un fenómeno distinto al de Gibbs: no ocurre al
+truncar una serie de Fourier, sino al \textbf{muestrear} (discretizar)
+una señal continua para representarla con un número finito de
+puntos, como sucede en cualquier sistema digital.
+
+\subsection{Idea central}
+
+Cuando una señal continua $f(t)$ se muestrea cada $T_s$ segundos
+(es decir, con una frecuencia de muestreo $f_s = 1/T_s$), solo se
+conservan los valores de $f(t)$ en esos instantes. Si la señal
+original contiene componentes de frecuencia demasiado altas en
+comparación con $f_s$, esos componentes de alta frecuencia
+\textbf{no se pueden distinguir} de componentes de una frecuencia
+mucho más baja: los datos muestreados de ambas señales resultan
+ser idénticos. A esa frecuencia "falsa" de baja frecuencia que
+aparece en su lugar se le llama \emph{alias}.
+
+\subsection{Teorema de muestreo de Nyquist-Shannon}
+
+Para evitar el aliasing, la frecuencia de muestreo debe ser mayor
+al doble de la frecuencia máxima presente en la señal:
+
+\begin{equation}
+\boxed{\; f_s > 2 f_{\max} \;}
+\end{equation}
+
+A la frecuencia $2f_{\max}$ se le conoce como \textbf{frecuencia de
+Nyquist}. Si esta condición no se cumple, las componentes de
+frecuencia $f > f_s/2$ se "reflejan" hacia el rango
+$[0, f_s/2]$, apareciendo como frecuencias falsas indistinguibles
+de señales reales de menor frecuencia.
+
+\subsection{Ejemplo clásico}
+
+Un ejemplo cotidiano es el de las llantas de un automóvil o las
+aspas de un helicóptero en una película: a veces parecen girar
+muy lento, detenidas, o incluso en reversa, aunque en realidad
+giran rápido. Esto sucede porque la cámara "muestrea" la escena
+tomando una cantidad limitada de fotogramas por segundo; si esa
+tasa es menor al doble de la velocidad de giro, el ojo humano
+percibe un movimiento distinto (más lento o invertido) al
+movimiento real, que es justamente un caso de aliasing.
+
+\subsection{Relación práctica}
+
+En electrónica y procesamiento digital de señales, este fenómeno
+se evita colocando un \textbf{filtro anti-aliasing} (un filtro
+pasa-bajas) antes del proceso de muestreo, para eliminar toda
+componente de frecuencia mayor a $f_s/2$ y así garantizar que la
+señal digitalizada represente fielmente a la señal original.
+
+\section{Diferencia clave entre ambos fenómenos}
+
+\begin{itemize}
+    \item El \textbf{fenómeno de Gibbs} ocurre al truncar una serie
+    de Fourier de una función \emph{continua en el dominio del
+    tiempo}: el problema es cuántos armónicos se suman.
+    \item El \textbf{fenómeno de aliasing} ocurre al
+    \emph{muestrear} una señal en el tiempo: el problema es qué
+    tan seguido se toman las muestras.
+\end{itemize}
+
+Ambos son limitaciones fundamentales que aparecen constantemente
+en el análisis de Fourier y en el procesamiento digital de
+señales, y es útil reconocerlos por separado para no confundirlos.
+
+\end{document}
