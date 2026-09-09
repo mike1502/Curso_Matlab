@@ -6,6 +6,7 @@ clc; clear;
 
 %% Comparaciones básicas
 % El resultado siempre es 1 (verdadero) o 0 (falso).
+% 1 TRUE O FALSE
 
 disp(5 == 5)    % 1 -> igual
 disp(5 == 3)    % 0 -> no es igual
@@ -27,7 +28,7 @@ disp(esMayor)   % 0
 %% Comparación de texto (con strcmp)
 % El operador == no compara texto directamente como uno esperaría,
 % para eso se usa la función strcmp (string compare).
-
+clear
 palabra1 = 'hola';
 palabra2 = 'hola';
 disp(strcmp(palabra1, palabra2))   % 1 -> son iguales

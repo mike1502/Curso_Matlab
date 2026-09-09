@@ -7,9 +7,9 @@ clc; clear;
 %% Crear variables
 % En MATLAB no necesitas declarar el tipo de dato: se asigna solo.
 
-x = 5;
-y = 3.14;
-nombre = 'Ana';        % texto entre comillas simples
+x = 5; %ENTEROS (int)
+y = 3.14; %FLOTANTES (float) 
+nombre = 'Ana';        % texto entre comillas simples Cadena
 esVerdadero = true;    % valor lógico (true/false)
 
 %% Reglas para nombrar variables

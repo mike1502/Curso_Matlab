@@ -5,7 +5,7 @@
 clc; clear;
 
 %% for básico
-for i = 1:5
+for i = 1:5 %iterar
     disp(i)
 end
 % Recorre i = 1, 2, 3, 4, 5
@@ -23,7 +23,8 @@ end
 %% Acumular un resultado dentro de un for
 suma = 0;
 for i = 1:10
-    suma = suma + i;
+    disp(i)
+    suma = suma + i
 end
 disp(suma)          % 55 (suma de 1 a 10)
 

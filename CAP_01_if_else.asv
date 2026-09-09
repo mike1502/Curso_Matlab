@@ -34,7 +34,7 @@ else
 end
 
 %% if anidado (un if dentro de otro)
-numero = 13;
+numero = 12;
 
 if mod(numero, 2) == 0
     if numero > 10

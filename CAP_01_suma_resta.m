@@ -2,8 +2,10 @@
 % Curso básico de MATLAB
 % Tema: operadores + y -
 
-clc; clear;
-%close
+clc;% borra la línea de comandos
+clear; %borrar las variables que se están utilizando
+%colocarlo al inicio de cada programa
+%close; cerrar figuras
 %% Suma
 a = 8;
 b = 5;
