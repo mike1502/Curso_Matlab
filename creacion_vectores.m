@@ -52,3 +52,12 @@ disp(v9)
 % 3. Usa linspace() para crear 6 valores entre 0 y 1.
 % 4. Crea un vector de 5 ceros y cámbialo mentalmente: ¿cómo lo
 %    convertirías en un vector de puros cincos? (pista: multiplícalo)
+
+
+%%
+vn1=[1 2 3 4 5 6];
+vn2=[1 2 3 4 5 6];
+
+%producto escalar, recuerden el punto
+
+producto=vn1.*vn2

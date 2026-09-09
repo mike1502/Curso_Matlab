@@ -22,7 +22,7 @@ x = linspace(-5, 5, 100);
 y = x.^2;
 
 figure               % abre una nueva ventana de gráfica
-plot(x, y)
+plot(x, y, 'LineWidth',4)
 
 %% Agregar título y etiquetas a los ejes
 title('Gráfica de y = x^2')

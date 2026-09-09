@@ -47,3 +47,12 @@ disp(B')            % el apóstrofe ' transpone la matriz
 % 3. Crea una matriz identidad de 4x4 con eye().
 % 4. Crea una matriz de puros ceros de 3 filas por 5 columnas.
 % 5. Transpón una matriz de 2x3 y verifica que ahora sea de 3x2.
+
+%inversa de una matriz
+C=[1 3 4; 9 2 -1; 2 3 4];
+inv_C=inv(C);
+
+%Probar producto de matrices C por inv_C, debe dar la identidad
+
+identidad=C*inv_C;
+
