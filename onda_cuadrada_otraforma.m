@@ -23,4 +23,4 @@ title('Función original')
 ylim([-1.5 1.5])
 %% la serie de fourier
 N= 10;
-F=zeros(site(t));
+F=zeros(size(t));
